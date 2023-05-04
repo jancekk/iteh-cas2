@@ -1,3 +1,42 @@
+<?php
+require "dbBroker.php";
+require "model/user.php";
+
+session_start();
+if(isset($_POST['username']) && isset($_POST['password'])){
+    $uname = $_POST['username'];
+    $upass = $_POST['password'];
+
+    $conn = new mysqli();
+
+    // $korisnik = User(1, $uname, $upass);
+    // $odg = $korisnik->logInUser($uname, $upass, mysqli);
+    $odg = User::logInUser($korisnik, $conn); //psritup statickim funkc
+    if($odg->num_rows==1){
+        echo `
+        <script>
+        console.log("uspesna prijava");
+        </script>
+        `;
+        $_SESSION['user_id'] = $korisnik->id;
+        header('Location: home-kostur.php');
+        exit();
+    }else{
+        echo `
+        <script>
+        console.log("nije uspesna prijava");
+        </script>
+        `;
+    }
+
+}
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
